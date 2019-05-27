@@ -17,7 +17,7 @@ Default activate first tab.
 ```jsx
 import { Tabs, Select } from 'antd';
 
-const TabPane = Tabs.TabPane;
+const { TabPane } = Tabs;
 const Option = Select.Option;
 
 const positionList = ['left', 'right', 'top', 'bottom'];

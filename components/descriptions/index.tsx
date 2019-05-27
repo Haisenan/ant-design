@@ -8,14 +8,14 @@ import ResponsiveObserve, {
 } from '../_util/responsiveObserve';
 import { ConfigConsumer, ConfigConsumerProps } from '../config-provider';
 
-export interface DescriptionsItemProps {
+export interface Descriptions.ItemProps {
   prefixCls?: string;
   label: React.ReactNode;
   children: JSX.Element;
   span?: number;
 }
 
-const DescriptionsItem: React.SFC<DescriptionsItemProps> = ({ children }) => children;
+const Descriptions.Item: React.SFC<Descriptions.ItemProps> = ({ children }) => children;
 
 export interface DescriptionsProps {
   prefixCls?: string;
@@ -30,17 +30,17 @@ export interface DescriptionsProps {
 
 /**
  * Convert children into `column` groups.
- * @param cloneChildren: DescriptionsItem
+ * @param cloneChildren: Descriptions.Item
  * @param column: number
  */
 const generateChildrenRows = (
   cloneChildren: React.ReactNode,
   column: number,
-): React.ReactElement<DescriptionsItemProps>[][] => {
-  const childrenArray: React.ReactElement<DescriptionsItemProps>[][] = [];
-  let columnArray: React.ReactElement<DescriptionsItemProps>[] = [];
+): React.ReactElement<Descriptions.ItemProps>[][] => {
+  const childrenArray: React.ReactElement<Descriptions.ItemProps>[][] = [];
+  let columnArray: React.ReactElement<Descriptions.ItemProps>[] = [];
   let totalRowSpan = 0;
-  React.Children.forEach(cloneChildren, (node: React.ReactElement<DescriptionsItemProps>) => {
+  React.Children.forEach(cloneChildren, (node: React.ReactElement<Descriptions.ItemProps>) => {
     columnArray.push(node);
     if (node.props.span) {
       totalRowSpan += node.props.span;
@@ -69,14 +69,14 @@ const generateChildrenRows = (
 /**
  * This code is for handling react15 does not support returning an array,
  * It can convert a children into two td
- * @param child DescriptionsItem
+ * @param child Descriptions.Item
  * @returns
  * <>
- *   <td>{DescriptionsItem.label}</td>
- *   <td>{DescriptionsItem.children}</td>
+ *   <td>{Descriptions.Item.label}</td>
+ *   <td>{Descriptions.Item.children}</td>
  * </>
  */
-const renderCol = (child: React.ReactElement<DescriptionsItemProps>, bordered: boolean) => {
+const renderCol = (child: React.ReactElement<Descriptions.ItemProps>, bordered: boolean) => {
   const { prefixCls, label, children, span = 1 } = child.props;
   if (bordered) {
     return [
@@ -101,23 +101,23 @@ const renderCol = (child: React.ReactElement<DescriptionsItemProps>, bordered: b
 };
 
 const renderRow = (
-  children: React.ReactElement<DescriptionsItemProps>[],
+  children: React.ReactElement<Descriptions.ItemProps>[],
   index: number,
   { prefixCls, column, isLast }: { prefixCls: string; column: number; isLast: boolean },
   bordered: boolean,
 ) => {
   // copy children,prevent changes to incoming parameters
   const childrenArray = [...children];
-  let lastChildren = childrenArray.pop() as React.ReactElement<DescriptionsItemProps>;
+  let lastChildren = childrenArray.pop() as React.ReactElement<Descriptions.ItemProps>;
   const span = column - childrenArray.length;
   if (isLast) {
-    lastChildren = React.cloneElement(lastChildren as React.ReactElement<DescriptionsItemProps>, {
+    lastChildren = React.cloneElement(lastChildren as React.ReactElement<Descriptions.ItemProps>, {
       span,
     });
   }
   const cloneChildren = React.Children.map(
     childrenArray,
-    (childrenItem: React.ReactElement<DescriptionsItemProps>) => {
+    (childrenItem: React.ReactElement<Descriptions.ItemProps>) => {
       return renderCol(childrenItem, bordered);
     },
   );
@@ -148,7 +148,7 @@ class Descriptions extends React.Component<
     size: 'default',
     column: defaultColumnMap,
   };
-  static Item: typeof DescriptionsItem;
+  static Item: typeof Descriptions.Item;
   state: {
     screens: BreakpointMap;
   } = {
@@ -207,7 +207,7 @@ class Descriptions extends React.Component<
           const column = this.getColumn();
           const cloneChildren = React.Children.map(
             children,
-            (child: React.ReactElement<DescriptionsItemProps>) => {
+            (child: React.ReactElement<Descriptions.ItemProps>) => {
               return React.cloneElement(child, {
                 prefixCls,
               });
@@ -215,7 +215,7 @@ class Descriptions extends React.Component<
           );
 
           const childrenArray: Array<
-            React.ReactElement<DescriptionsItemProps>[]
+            React.ReactElement<Descriptions.ItemProps>[]
           > = generateChildrenRows(cloneChildren, column);
           return (
             <div
@@ -251,6 +251,6 @@ class Descriptions extends React.Component<
   }
 }
 
-Descriptions.Item = DescriptionsItem;
+Descriptions.Item = Descriptions.Item;
 
 export default Descriptions;
